@@ -1,7 +1,7 @@
 #include "csv_reader.h"
 
 char** read_line(FILE* file) {
-  char** strings = (char**) malloc(sizeof(char*) * 18128);
+  char** strings = (char**) malloc(sizeof(char*) * NUM_CARDS);
   int index = 0;
   unsigned long num_cards = 0;
   int c = fgetc(file);
@@ -13,6 +13,7 @@ char** read_line(FILE* file) {
     if (buffer_size == buffer_capacity) {
       char* temp = (char*) malloc(sizeof(char) * buffer_capacity * 2);
       memcpy(temp, buffer, sizeof(char) * buffer_capacity);
+      memset(buffer, (char) 0, buffer_capacity);
       buffer_capacity = buffer_capacity * 2;
       free(buffer);
       buffer = temp;
@@ -40,7 +41,7 @@ char** read_line(FILE* file) {
 // int main() {
 //   FILE* all_cards = fopen("AllCards.txt", "r");
 //   char** data = read_line(all_cards);
-//   for (int i = 0; i < 18128; i++) {
+//   for (int i = 0; i < NUM_CARDS; i++) {
 //     printf("%i\n", i);
 //     printf("%s", data[i]);
 //   }

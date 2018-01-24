@@ -57,13 +57,15 @@ Card* draw_from_deck(Deck* d) {
 
 void read_card(Card* c) {
   printf("%s", c->name);
-  if (!(c->type & (1 << LAND))) {
+  int isLand = (c->type / 1000) % 2;
+  if (!isLand) {
     printf(" (%s)", c->cost);
   }
   printf("\n");
   printf("%s\n", c->typeline);
-  printf("%s\n", c->text);
-  if (c->type & (1 << CREATURE)) {
+  printf("%s", c->text);
+  int isCreature = (c->type / 1000000) % 2;
+  if (isCreature) {
     printf("%i / %i\n", c->power, c->toughness);
   }
   printf("\n");
@@ -110,7 +112,7 @@ void read_hand(Hand* h) {
 }
 
 Card** import_cards(char** strings) {
-  Card** cards = (Card**) malloc(sizeof(Card*) * 18128);
+  Card** cards = (Card**) malloc(sizeof(Card*) * NUM_CARDS);
   Card* current;
   char* name;
   char* cost;
@@ -124,7 +126,7 @@ Card** import_cards(char** strings) {
   int start;
   int end;
   int arg = NAME;
-  for (int i = 0; i < 18128; i++) {
+  for (int i = 0; i < NUM_CARDS; i++) {
     start = 0;
     end = 0;
     j = 0;
@@ -140,29 +142,29 @@ Card** import_cards(char** strings) {
           // printf("Name: %s\n", name);
         } else if (arg == COST) {
           cost = (char*) malloc(sizeof(char) * (end - start));
-          memcpy(cost, &strings[i][start], (end - start));
+          memcpy(cost, &strings[i][start], (end - start) * sizeof(char));
           // printf("Cost: %s\n", cost);
         } else if (arg == TYPE) {
           temp_str = (char*) malloc(sizeof(char) * (end - start));
-          memcpy(temp_str, &strings[i][start], (end - start));
+          memcpy(temp_str, &strings[i][start], (end - start) * sizeof(char));
           type = atoi(temp_str);
           // printf("Type: %i\n", type);
           memset(temp_str, (char) 0, (end - start) * sizeof(char));
           free(temp_str);
         } else if (arg == TYPELINE) {
           typeline = (char*) malloc(sizeof(char) * (end - start));
-          memcpy(typeline, strings[i] + start, (end - start));
+          memcpy(typeline, strings[i] + start, (end - start) * sizeof(char));
           // printf("Typeline: %s\n", typeline);
         } else if (arg == POWER) {
           temp_str = (char*) malloc(sizeof(char) * (end - start));
-          memcpy(temp_str, &strings[i][start], (end - start));
+          memcpy(temp_str, &strings[i][start], (end - start) * sizeof(char));
           power = atoi(temp_str);
           // printf("Power: %i\n", power);
           memset(temp_str, (char) 0, (end - start) * sizeof(char));
           free(temp_str);
         } else if (arg == TOUGHNESS) {
           temp_str = (char*) malloc(sizeof(char) * (end - start));
-          memcpy(temp_str, &strings[i][start], (end - start));
+          memcpy(temp_str, &strings[i][start], (end - start) * sizeof(char));
           toughness = atoi(temp_str);
           // printf("Toughness: %i\n", toughness);
           memset(temp_str, (char) 0, (end - start) * sizeof(char));
@@ -184,7 +186,7 @@ Card** import_cards(char** strings) {
 }
 
 Card* find_card(char* name, int length, Card** cards) {
-  for (int i = 0; i < 18128; i++) {
+  for (int i = 0; i < NUM_CARDS; i++) {
     if (strncmp(name, cards[i]->name, length) == 0) {
       // printf("%s\n", cards[i]->name);
       return cards[i];
@@ -194,29 +196,12 @@ Card* find_card(char* name, int length, Card** cards) {
 }
 
 int main() {
-  // Deck* deck1 = create_deck(60);
-  // Hand* hand1 = create_hand();
-  // Card* plains = create_card("Plains", "0", "00001000", "Basic Land - Plains", "T: add W to your mana pool.", 0, 0);
-  // Card* island = create_card("Island", "0", "00001000", "Basic Land - Island", "T: add U to your mana pool.", 0, 0);
-  // Card* swamp = create_card("Swamp", "0", "00001000", "Basic Land - Swamp", "T: add B to your mana pool.", 0, 0);
-  // Card* mountain = create_card("Mountain", "0", "00001000", "Basic Land - Mountain", "T: add R to your mana pool.", 0, 0);
-  // Card* forest = create_card("Forest", "0", "00001000", "Basic Land - Forest", "T: add G to your mana pool.", 0, 0);
-  // Card* snapcaster_mage = create_card("Snapcaster Mage", "1U", "01000000", "Creature - Human Wizard", "Flash\nWhen Snapcaster Mage enters the battlefield, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost.", 2, 1);
-  // for (int i = 0; i < 10; i++) {
-  //   add_card_to_deck(deck1, plains);
-  //   add_card_to_deck(deck1, island);
-  //   add_card_to_deck(deck1, swamp);
-  //   add_card_to_deck(deck1, mountain);
-  //   add_card_to_deck(deck1, forest);
-  //   add_card_to_deck(deck1, snapcaster_mage);
-  // }
-  // shuffle_deck(deck1);
-  // draw_x(hand1, deck1, 7);
-  // read_hand(hand1);
-
   FILE* all_cards = fopen("AllCards.txt", "r");
   char** data = read_line(all_cards);
   Card** cards = import_cards(data);
+  // for (int i = 0; i < NUM_CARDS; i++) {
+  //   printf("%s\n", cards[i]->name);
+  // }
   Deck* deck1 = create_deck(60);
   Hand* hand1 = create_hand();
   add_card_to_deck(deck1, find_card("Restoration Angel", 17, cards), 2);
@@ -249,5 +234,5 @@ int main() {
     shuffle_deck(deck1);
   }
   draw_x(hand1, deck1, 7);
-  view_hand(hand1);
+  read_hand(hand1);
 }

@@ -2998,7 +2998,7 @@ Equip {2}
 
 Vendilion Clique;{1}{U}{U};01000000;Legendary Creature — Faerie Wizard;3;1;Flash
 Flying
-When Vendilion Clique enters the battlefield, look at target player's hand. You may choose a nonland card from it. If you do, that player reveals the chosen card, puts it on the bottom of his or her library, then draws a card.
+When Vendilion Clique enters the battlefield, look at target player's hand. You may choose a nonland card from it. If you do, that player reveals the chosen card, puts it on the bottom of his or her library, then draws a card. 
 
 Bitterblossom;{1}{B};00100001;Tribal Enchantment — Faerie;0;0;At the beginning of your upkeep, you lose 1 life and create a 1/1 black Faerie Rogue creature token with flying.
 
@@ -48421,5 +48421,6 @@ Suncrusher;{9};11000000;Artifact Creature — Construct;3;3;Sunburst (This enter
 {2}, Remove a +1/+1 counter from Suncrusher: Return Suncrusher to its owner's hand.
 
 Thermal Navigator;{3};11000000;Artifact Creature — Construct;2;2;Sacrifice an artifact: Thermal Navigator gains flying until end of turn.
+
 
 a
