@@ -1,2 +1,8 @@
 *.zip
 *.json
+AllCards.txt
+csv_reader.c
+csv_reader.h
+goldfish.c
+goldfish.h
+structs.h
