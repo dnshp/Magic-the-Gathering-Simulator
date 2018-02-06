@@ -6,3 +6,4 @@ csv_reader.h
 goldfish.c
 goldfish.h
 structs.h
+__pycache__

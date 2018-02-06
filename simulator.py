@@ -34,10 +34,15 @@ class Hand:
     def draw(self, quantity):
         for i in range(quantity):
             self.cards.append(self.deck.draw())
+            print("Drew " + self.cards[-1].name)
 
     def read(self):
         for card in self.cards:
             card.read()
+
+    def list(self):
+        for i in range(len(self.cards)):
+            print(str(i + 1) + ". " + self.cards[i].name)
 
 class Deck:
     def __init__(self):
@@ -92,35 +97,35 @@ def find_card(cards, name):
             return card
     return None
 
-all_cards = import_cards()
-shahar_jeskai_control = Deck()
-shahar_jeskai_control.add_card(find_card(all_cards, "Restoration Angel"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Snapcaster Mage"), 4)
-shahar_jeskai_control.add_card(find_card(all_cards, "Vendilion Clique"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Ajani Vengeant"), 1)
-shahar_jeskai_control.add_card(find_card(all_cards, "Cryptic Command"), 3)
-shahar_jeskai_control.add_card(find_card(all_cards, "Electrolyze"), 3)
-shahar_jeskai_control.add_card(find_card(all_cards, "Lightning Bolt"), 4)
-shahar_jeskai_control.add_card(find_card(all_cards, "Lightning Helix"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Mana Leak"), 3)
-shahar_jeskai_control.add_card(find_card(all_cards, "Path to Exile"), 3)
-shahar_jeskai_control.add_card(find_card(all_cards, "Shadow of Doubt"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Spell Snare"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Sphinx's Revelation"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Think Twice"), 1)
-shahar_jeskai_control.add_card(find_card(all_cards, "Arid Mesa"), 3)
-shahar_jeskai_control.add_card(find_card(all_cards, "Celestial Colonnade"), 4)
-shahar_jeskai_control.add_card(find_card(all_cards, "Glacial Fortress"), 1)
-shahar_jeskai_control.add_card(find_card(all_cards, "Hallowed Fountain"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Island"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Mountain"), 1)
-shahar_jeskai_control.add_card(find_card(all_cards, "Plains"), 1)
-shahar_jeskai_control.add_card(find_card(all_cards, "Sacred Foundry"), 1)
-shahar_jeskai_control.add_card(find_card(all_cards, "Scalding Tarn"), 4)
-shahar_jeskai_control.add_card(find_card(all_cards, "Steam Vents"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Sulfur Falls"), 2)
-shahar_jeskai_control.add_card(find_card(all_cards, "Tectonic Edge"), 3)
-shahar_jeskai_control.shuffle()
-hand = Hand(shahar_jeskai_control)
-hand.draw(7)
-hand.read()
+def initialize():
+    all_cards = import_cards()
+    shahar_jeskai_control = Deck()
+    shahar_jeskai_control.add_card(find_card(all_cards, "Restoration Angel"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Snapcaster Mage"), 4)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Vendilion Clique"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Ajani Vengeant"), 1)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Cryptic Command"), 3)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Electrolyze"), 3)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Lightning Bolt"), 4)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Lightning Helix"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Mana Leak"), 3)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Path to Exile"), 3)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Shadow of Doubt"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Spell Snare"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Sphinx's Revelation"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Think Twice"), 1)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Arid Mesa"), 3)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Celestial Colonnade"), 4)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Glacial Fortress"), 1)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Hallowed Fountain"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Island"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Mountain"), 1)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Plains"), 1)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Sacred Foundry"), 1)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Scalding Tarn"), 4)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Steam Vents"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Sulfur Falls"), 2)
+    shahar_jeskai_control.add_card(find_card(all_cards, "Tectonic Edge"), 3)
+    shahar_jeskai_control.shuffle()
+    hand = Hand(shahar_jeskai_control)
+    return hand, shahar_jeskai_control
