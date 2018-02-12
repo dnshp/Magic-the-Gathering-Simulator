@@ -27,14 +27,12 @@ class Card:
         return Card(self.name, self.cost, self.types, self.typeline, self.text, self.power, self.toughness)
 
 class Hand:
-    def __init__(self, deck):
+    def __init__(self):
         self.cards = []
-        self.deck = deck
 
-    def draw(self, quantity):
-        for i in range(quantity):
-            self.cards.append(self.deck.draw())
-            print("Drew " + self.cards[-1].name)
+    def add_to_hand(self, card):
+        self.cards.append(card)
+        print("Drew " + self.cards[-1].name)
 
     def read(self):
         for card in self.cards:
@@ -43,6 +41,11 @@ class Hand:
     def list(self):
         for i in range(len(self.cards)):
             print(str(i + 1) + ". " + self.cards[i].name)
+
+    def remove_from_hand(self, index):
+        rv = self.cards[index]
+        self.cards = self.cards[:index] + self.cards[index + 1:]
+        return rv
 
 class Deck:
     def __init__(self):
@@ -59,6 +62,96 @@ class Deck:
         rv = self.cards[0]
         self.cards = self.cards[1:]
         return rv
+
+    def view(self):
+        for i in range(len(self.cards)):
+            print(str(i+1) + ". " + self.cards[i].name)
+
+    def remove_from_deck(self, index):
+        rv = self.cards[index]
+        self.cards = self.cards[:index] + self.cards[index + 1:]
+        return rv
+
+class Board:
+    def __init__(self):
+        self.nonlands = []
+        self.lands = []
+        self.nstates = []
+        self.lstates = []
+
+    def view(self):
+        print("NONLAND PERMANENTS")
+        for i in range(len(self.nonlands)):
+            print(str(i + 1) + ". " + self.nonlands[i].name + " (" + ("tapped" if self.nstates[i] else "untapped") + ")")
+        print()
+        print("LANDS")
+        for i in range(len(self.lands)):
+            print(str(i + 1) + ". " + self.lands[i].name + " (" + ("tapped" if self.lstates[i] else "untapped") + ")")
+
+    def add_card(self, card, state):
+        if "Land" in card.types:
+            self.lands.append(card)
+            self.lstates.append(state)
+        else:
+            self.nonlands.append(card)
+            self.nstates.append(state)
+
+    def remove_land(self, index):
+        rv = self.lands[index]
+        self.lands = self.lands[:index] + self.lands[index + 1:]
+        return rv
+
+    def remove_nonland(self, index):
+        rv = self.nonlands[index]
+        self.nonlands = self.nonlands[:index] + self.nonlands[index + 1:]
+        return rv
+
+    def untap_all(self):
+        for i in range(len(self.lstates)):
+            self.lstates[i] = 0
+        for i in range(len(self.nstates)):
+            self.nstates[i] = 0
+
+class Player:
+    def __init__(self, deck):
+        self.deck = deck
+        self.hand = Hand()
+        self.board = Board()
+        self.graveyard = Graveyard()
+        self.life = 20
+
+    def draw(self, quantity):
+        for i in range(quantity):
+            self.hand.add_to_hand(self.deck.draw())
+
+    def mulligan(self):
+        hand_size = len(self.hand.cards)
+        for i in range(hand_size):
+            self.deck.add_card(self.hand.cards[0], 1)
+            self.hand.cards = self.hand.cards[1:]
+        self.draw(hand_size - 1)
+
+    def display_life(self):
+        print(self.life)
+
+    def set_life(self, new_life):
+        self.life = new_life
+        print("Life total set to " + str(self.life) + ".")
+
+    def change_life(self, change):
+        self.life += change
+        print("Life total changed to " + str(self.life) + ".")
+
+class Graveyard:
+    def __init__(self):
+        self.cards = []
+
+    def add_to_graveyard(self, card):
+        self.cards.append(card)
+
+    def view(self):
+        for i in range(len(self.cards)):
+            print(str(i+1) + ". " + self.cards[i].name)
 
 def import_cards():
     file = open("AllCards.json", 'r')
@@ -127,5 +220,4 @@ def initialize():
     shahar_jeskai_control.add_card(find_card(all_cards, "Sulfur Falls"), 2)
     shahar_jeskai_control.add_card(find_card(all_cards, "Tectonic Edge"), 3)
     shahar_jeskai_control.shuffle()
-    hand = Hand(shahar_jeskai_control)
-    return hand, shahar_jeskai_control
+    return Player(shahar_jeskai_control)

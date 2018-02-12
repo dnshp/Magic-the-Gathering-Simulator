@@ -12,5 +12,19 @@ This is a text-based (hopefully soon to include graphics) simulator of Magic: th
 * ```readhand```: prints the full text of each card in hand
 * ```listhand```: prints the name of each card in hand
 * ```readcard x```: prints the full text of the xth card in hand
-* ```play```: removes the card from hand (will eventually add the card to the battlefield, but battlefield functionality has not been implemented yet)
+* ```play x```: plays the xth card in hand, adding it to the battlefield if it's a permanent and moving it to the graveyard if not.
+* ```viewboard```: shows the current state of the player's board.
 * ```exit```: exits the simulator
+* ```mulligan```: shuffles the player's hand back into the deck and draws that many minus 1 cards.
+* ```life```: displays the player's life total.
+* ```setlife x```: sets the player's life total to ```x```.
+* ```changelife x```: adds ```x``` to the player's life total.
+* ```tap [land/nonland] x```: taps the xth land or nonland permanent in play.
+* ```untap*```: untaps all permanents.
+* ```untap [land/nonland] x```: untaps the xth land or nonland permanent in play.
+* ```destroy [land/nonland] x```: moves the xth land or nonland permanent in play to the graveyard.
+* ```viewgraveyard```: lists all cards in the player's graveyard.
+* ```shuffle```: shuffles the player's library.
+* ```viewlibrary```: lists all cards in the player's library.
+* ```librarytohand x```: moves the xth card in the player's library to their hand.
+* ```librarytoplay x``` moves the xth card in the player's library to the battlefield.
