@@ -88,7 +88,6 @@ while True:
                     print(player.board.nonlands[index].name + " already untapped.")
             else:
                 print("Invalid argument: specify \'land\' or \'nonland\' followed by a number in range.")
-            print("hi")
         except:
             print("Invalid argument: specify \'land\' or \'nonland\' followed by a number in range.")
     elif command[0:7] == "destroy":
