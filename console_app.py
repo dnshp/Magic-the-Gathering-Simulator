@@ -72,7 +72,7 @@ while True:
         try:
             if command[5] == "*":
                 player.board.untap_all()
-            if command[6:10] == "land":
+            elif command[6:10] == "land":
                 index = int(command[11:]) - 1
                 if player.board.lstates[index] == 1:
                     player.board.lstates[index] = 0
@@ -88,6 +88,7 @@ while True:
                     print(player.board.nonlands[index].name + " already untapped.")
             else:
                 print("Invalid argument: specify \'land\' or \'nonland\' followed by a number in range.")
+            print("hi")
         except:
             print("Invalid argument: specify \'land\' or \'nonland\' followed by a number in range.")
     elif command[0:7] == "destroy":
